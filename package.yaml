@@ -26,12 +26,13 @@ library:
 executables:
   lambda:
     main:                Main.hs
-    source-dirs:         src
+    source-dirs:         app
     ghc-options:
     - -threaded
     - -O3
     - -rtsopts
     - -with-rtsopts=-N
+    - -optP-Wno-nonportable-include-path
     build-tools:
     - alex
     - happy

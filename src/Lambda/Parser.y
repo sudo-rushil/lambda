@@ -29,15 +29,15 @@ import Lambda.Syntax
 %%
 
 Stmt :: {Stmt}
-     : let '_' var '_' '=' '_' Expr     { Bind (Var $3) $7 }
+     : let var '=' Expr                 { Bind (Var $2) $4 }
      | Expr                             { Exp $1 }
 
 Expr :: {Expr}
-     : Expr '_' Expr                    { App $1 $3 }
+     : var                              { Var $1 }
      | lam var '.' Expr                 { Abs $2 $4 }
      | '(' Expr ')'                     { $2 }
      | '[' Expr ']'                     { $2 }
-     | var                              { Var $1 }
+     | Expr Expr                        { App $1 $2 }
 
 
 {}

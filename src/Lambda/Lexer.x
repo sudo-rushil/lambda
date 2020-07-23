@@ -32,13 +32,13 @@ import qualified Data.ByteString.Lazy.Char8 as B
 
 $digit = 0-9                    -- digits
 $alpha = [a-zA-Z]
-$idens = ~$white
+$idens = $printable # [\\=\(\)\[\]\.\ \t\n\f\v\r]
 
 
 tokens :-
 
+  $white+                               ;
   "--".*                                ;
-  $white+                               { tok          TokenSpace }
   let                                   { tok          TokenLet }
   [=]                                   { tok          TokenEq }
   [\\]                                  { tok          TokenLam }
@@ -47,7 +47,7 @@ tokens :-
   [\[]                                  { tok          TokenOB }
   [\]]                                  { tok          TokenCB }
   [\.]                                  { tok          TokenDot }
-  $alpha+                               { tok_string   TokenVar }
+  $idens+                               { tok_string   TokenVar }
 
 {
 

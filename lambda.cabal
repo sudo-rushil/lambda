@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 1480b94656fd4df05667963866b2045f2517637dd43c496a20c2191fc927da7e
+-- hash: ecf84ae39624d049e5da1aaa6f960a058bc3bccddf9a62081a07635595487b1d
 
 name:           lambda
 version:        0.1.0.0
@@ -32,7 +32,6 @@ library
       Lambda.Parser
       Lambda.Reduce
       Lambda.Syntax
-      Main
   other-modules:
       Paths_lambda
   hs-source-dirs:
@@ -50,18 +49,11 @@ library
 executable lambda
   main-is: Main.hs
   other-modules:
-      Lambda
-      Lambda.Lex
-      Lambda.Lexer
-      Lambda.Parse
-      Lambda.Parser
-      Lambda.Reduce
-      Lambda.Syntax
       Paths_lambda
   hs-source-dirs:
-      src
+      app
   default-extensions: OverloadedStrings
-  ghc-options: -threaded -O3 -rtsopts -with-rtsopts=-N
+  ghc-options: -threaded -O3 -rtsopts -with-rtsopts=-N -optP-Wno-nonportable-include-path
   build-tools:
       alex
     , happy
