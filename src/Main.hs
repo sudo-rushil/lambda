@@ -1,7 +1,8 @@
 module Main where
 
 
-import           Control.Monad.Trans      (liftIO)
+import           Control.Monad.Trans        (liftIO)
+import qualified Data.ByteString.Lazy.Char8 as B
 import           System.Console.Haskeline
 
 import           Lambda
@@ -9,10 +10,10 @@ import           Lambda
 
 process :: String -> IO ()
 process line = do
-        let res = Right line
+        let res = parse $ B.pack line
         case res of
-            Left _   -> print ""
-            Right ex -> mapM_ print ex
+            Left err -> print err
+            Right ex -> print ex
 
 
 main :: IO ()

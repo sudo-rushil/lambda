@@ -12,42 +12,31 @@ import Lambda.Syntax
 %lexer { lexer } { Token _ TokenEOF }
 
 %token
+        '_'             { Token _ TokenSpace    }
         let             { Token _ TokenLet      }
-        in              { Token _ TokenIn       }
-        int             { Token _ (TokenInt $$) }
         var             { Token _ (TokenVar $$) }
-        '+'             { Token _ TokenPlus     }
-        '-'             { Token _ TokenMinus    }
-        '*'             { Token _ TokenTimes    }
-        '/'             { Token _ TokenDiv      }
         '='             { Token _ TokenEq       }
-        '('             { Token _ TokenOB       }
-        ')'             { Token _ TokenCB       }
-        ','             { Token _ TokenComma    }
+        lam             { Token _ TokenLam      }
+        '('             { Token _ TokenOP       }
+        ')'             { Token _ TokenCP       }
+        '['             { Token _ TokenOB       }
+        ']'             { Token _ TokenCB       }
+        '.'             { Token _ TokenDot      }
 
-%right in
-%left '+' '-'
-%right '*' '/'
-%left NEG
+%left '_' '.'
 
 %%
 
-Exp :: {Exp}
-     : let Bindings in Exp	{ Let (tokenToPosN $1) $2 $4 }
-     | Exp '+' Exp              { Plus $1 $3 }
-     | Exp '-' Exp              { Minus $1 $3 }
-     | Exp '*' Exp              { Times $1 $3 }
-     | Exp '/' Exp              { Div $1 $3 }
-     | '(' Exp ')'              { Brack $2 }
-     | '-' Exp %prec NEG        { Negate $2 }
-     | int                      { Int $1 }
+Stmt :: {Stmt}
+     : let var '=' Expr          { Bind $2 $4 }
+     | Expr                     { Exp $1 }
+
+Expr :: {Expr}
+     : lam var '.' Expr          { Abs $2 $4 }
+     | Expr '_' Expr              { App $1 $3 }
+     | '(' Expr ')'              { Brack $2 }
+     | '[' Expr ']'              { Brack $2 }
      | var                      { Var $1 }
 
-Binding :: {Binding}
-         : var '=' Exp          { Bind $1 $3 }
-
-Bindings :: {[Binding]}
-          : Binding             { [$1] }
-          | Bindings ',' Binding    { $3 : $1 }
 
 {}

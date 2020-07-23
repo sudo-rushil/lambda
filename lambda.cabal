@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: e6df597830acb2e5c6139bd1e17f26c2ba394d7e4bbaf78a0e48543d98ea6a54
+-- hash: 1480b94656fd4df05667963866b2045f2517637dd43c496a20c2191fc927da7e
 
 name:           lambda
 version:        0.1.0.0
@@ -29,6 +29,7 @@ library
       Lambda.Lex
       Lambda.Lexer
       Lambda.Parse
+      Lambda.Parser
       Lambda.Reduce
       Lambda.Syntax
   other-modules:
@@ -52,6 +53,7 @@ executable lambda
       Lambda.Lex
       Lambda.Lexer
       Lambda.Parse
+      Lambda.Parser
       Lambda.Reduce
       Lambda.Syntax
       Paths_lambda
