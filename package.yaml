@@ -1,0 +1,41 @@
+name:                lambda
+version:             0.1.0.0
+github:              "sudo-rushil/lambda"
+license:             MIT
+author:              "Rushil Mallarapu"
+maintainer:          "rushil.mallarapu@gmail.com"
+copyright:           "Rushil Mallarapu"
+
+extra-source-files:
+- README.md
+
+description:         Please see the README on GitHub at <https://github.com/sudo-rushil/lambda#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+- array >= 0.5
+- haskeline >= 0.7.1
+- containers >= 0.4
+- mtl >= 2.2
+- bytestring >= 0.10
+- transformers >= 0.3 && < 0.6
+
+library:
+  source-dirs: src
+
+executables:
+  lambda:
+    main:                Main.hs
+    source-dirs:         src
+    ghc-options:
+    - -threaded
+    - -O3
+    - -rtsopts
+    - -with-rtsopts=-N
+    build-tools:
+    - alex
+    - happy
+    default-extensions:
+    - OverloadedStrings
+    dependencies:
+    - lambda
