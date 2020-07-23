@@ -23,20 +23,21 @@ import Lambda.Syntax
         ']'             { Token _ TokenCB       }
         '.'             { Token _ TokenDot      }
 
-%left '_' '.'
+%left '.'
+%left '_'
 
 %%
 
 Stmt :: {Stmt}
-     : let var '=' Expr          { Bind $2 $4 }
-     | Expr                     { Exp $1 }
+     : let '_' var '_' '=' '_' Expr     { Bind (Var $3) $7 }
+     | Expr                             { Exp $1 }
 
 Expr :: {Expr}
-     : lam var '.' Expr          { Abs $2 $4 }
-     | Expr '_' Expr              { App $1 $3 }
-     | '(' Expr ')'              { Brack $2 }
-     | '[' Expr ']'              { Brack $2 }
-     | var                      { Var $1 }
+     : Expr '_' Expr                    { App $1 $3 }
+     | lam var '.' Expr                 { Abs $2 $4 }
+     | '(' Expr ')'                     { $2 }
+     | '[' Expr ']'                     { $2 }
+     | var                              { Var $1 }
 
 
 {}

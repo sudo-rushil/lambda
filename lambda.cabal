@@ -32,6 +32,7 @@ library
       Lambda.Parser
       Lambda.Reduce
       Lambda.Syntax
+      Main
   other-modules:
       Paths_lambda
   hs-source-dirs:

@@ -7,9 +7,9 @@ module Lambda.Syntax
 data Expr = Var String
     | App Expr Expr
     | Abs String Expr
-    | Brack Expr
     deriving (Eq, Ord, Show)
 
+
 data Stmt = Exp Expr
-    | Bind String Expr
+    | Bind Expr Expr
     deriving (Eq, Ord, Show)

@@ -31,6 +31,7 @@ import qualified Data.ByteString.Lazy.Char8 as B
 %wrapper "monadUserState-bytestring"
 
 $digit = 0-9                    -- digits
+$alpha = [a-zA-Z]
 $idens = ~$white
 
 
@@ -46,7 +47,7 @@ tokens :-
   [\[]                                  { tok          TokenOB }
   [\]]                                  { tok          TokenCB }
   [\.]                                  { tok          TokenDot }
-  $idens+                               { tok_string   TokenVar }
+  $alpha+                               { tok_string   TokenVar }
 
 {
 
