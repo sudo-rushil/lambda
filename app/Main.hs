@@ -5,7 +5,7 @@ import           Control.Monad.Trans        (liftIO)
 import qualified Data.ByteString.Lazy.Char8 as B
 import           System.Console.Haskeline
 
-import           Lambda
+import           Lambda                     (eval', parse)
 
 
 process :: String -> IO ()
@@ -13,7 +13,9 @@ process line = do
         let res = parse $ B.pack line
         case res of
             Left err -> print err
-            Right ex -> print ex
+            Right ex -> do
+                print ex
+                putStrLn $ eval' ex
 
 
 main :: IO ()
