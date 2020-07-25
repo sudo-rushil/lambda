@@ -12,7 +12,6 @@ import Lambda.Syntax
 %lexer { lexer } { Token _ TokenEOF }
 
 %token
-        '_'             { Token _ TokenSpace    }
         let             { Token _ TokenLet      }
         var             { Token _ (TokenVar $$) }
         '='             { Token _ TokenEq       }
@@ -24,7 +23,10 @@ import Lambda.Syntax
         '.'             { Token _ TokenDot      }
 
 %left '.'
-%left '_'
+%left var lam
+%left APP
+%right '(' '['
+
 
 %%
 
@@ -33,11 +35,12 @@ Stmt :: {Stmt}
      | Expr                             { Exp $1 }
 
 Expr :: {Expr}
-     : var                              { Var $1 }
-     | lam var '.' Expr                 { Abs $2 $4 }
+     : lam var '.' Expr                 { Abs $2 $4 }
+     | Expr Expr %prec APP              { App $1 $2 }
+     | var                              { Var $1 }
      | '(' Expr ')'                     { $2 }
      | '[' Expr ']'                     { $2 }
-     | Expr Expr                        { App $1 $2 }
+
 
 
 {}

@@ -64,8 +64,7 @@ tokenToPosN :: Token -> AlexPosn
 tokenToPosN (Token p _) = p
 
 data TokenClass
- = TokenSpace
- | TokenLet
+ = TokenLet
  | TokenVar    String
  | TokenEq
  | TokenLam
