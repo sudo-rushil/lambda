@@ -5,7 +5,8 @@ import           Control.Monad.Trans        (liftIO)
 import qualified Data.ByteString.Lazy.Char8 as B
 import           System.Console.Haskeline
 
-import           Lambda                     (eval', parse)
+-- import           Lambda                     (parse, pprint')
+import           Lambda
 
 
 process :: String -> IO ()
@@ -15,7 +16,12 @@ process line = do
             Left err -> print err
             Right ex -> do
                 print ex
-                putStrLn $ eval' ex
+                case ex of
+                    (Bind _ _) -> return ()
+                    (Exp expr) -> do
+                        putStrLn $ pprint expr
+                        print $ freevars expr
+                        putStrLn $ pprint $ rename "x" "y" expr
 
 
 main :: IO ()
