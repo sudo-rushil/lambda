@@ -9,12 +9,16 @@ Maintainer  : Rushil Mallarapu
 module Lambda.Syntax
     ( Expr(..)
     , Stmt(..)
+    , Name
     ) where
 
 
-data Expr = Var String
+type Name = String
+
+
+data Expr = Var Name
     | App Expr Expr
-    | Abs String Expr
+    | Abs Name Expr
     deriving (Eq, Ord, Show)
 
 

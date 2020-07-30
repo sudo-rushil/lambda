@@ -21,7 +21,7 @@ process line = do
                     (Exp expr) -> do
                         putStrLn $ pprint expr
                         print $ freevars expr
-                        putStrLn $ pprint $ rename "x" "y" expr
+                        putStrLn $ pprint $ substitute "x" (Var "r") expr
 
 
 main :: IO ()
