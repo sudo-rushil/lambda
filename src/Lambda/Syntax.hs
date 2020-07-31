@@ -19,9 +19,9 @@ type Name = String
 data Expr = Var Name
     | App Expr Expr
     | Abs Name Expr
-    deriving (Eq, Ord, Show)
+    deriving (Eq, Ord)
 
 
 data Stmt = Exp Expr
     | Bind Expr Expr
-    deriving (Eq, Ord, Show)
+    deriving (Eq, Ord)

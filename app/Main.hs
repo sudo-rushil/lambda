@@ -19,8 +19,7 @@ process line = do
                 case ex of
                     (Bind _ _) -> return ()
                     (Exp expr) -> do
-                        putStrLn $ pprint expr
-                        putStrLn $ pprint $ reduce expr
+                        print $ reduce expr
                         putStrLn ""
 
 

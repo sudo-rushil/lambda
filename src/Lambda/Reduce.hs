@@ -18,17 +18,6 @@ import qualified Data.Set      as S
 import           Lambda.Syntax
 
 
-pprint' :: Stmt -> String
-pprint' (Bind _ _) = error "not implemented"
-pprint' (Exp expr) = (init.tail.pprint) expr
-
-
-pprint :: Expr -> String
-pprint (Var str)        = str
-pprint (Abs str expr)   = "(λ" ++ str ++ "." ++ pprint expr ++ ")"
-pprint (App expr expr') = "(" ++ pprint expr ++ " " ++ pprint expr' ++ ")"
-
-
 freevars :: Expr -> S.Set Name
 freevars (Var str)        = S.singleton str
 freevars (Abs str expr)   = freevars expr `S.difference` S.singleton str
@@ -72,3 +61,16 @@ betaReduce (App (Abs name expr) expr') = substitute name expr' expr
 betaReduce (App expr expr') = App (betaReduce expr) (betaReduce expr')
 betaReduce (Abs name expr) = Abs name $ betaReduce expr
 betaReduce expr = expr
+
+
+-- Pretty printing
+
+instance Show Stmt where
+    show (Bind (Var nme) expr) = "Bind: " ++ nme ++ " = " ++ show expr
+    show (Exp expr)            = "Expr: " ++ show expr
+
+
+instance Show Expr where
+    show (Var str)        = str
+    show (Abs str expr)   = "(λ" ++ str ++ "." ++ show expr ++ ")"
+    show (App expr expr') = "(" ++ show expr ++ " " ++ show expr' ++ ")"
