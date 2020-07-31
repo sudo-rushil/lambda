@@ -21,6 +21,7 @@ process line = do
                     (Exp expr) -> do
                         putStrLn $ pprint expr
                         putStrLn $ pprint $ reduce expr
+                        putStrLn ""
 
 
 main :: IO ()

@@ -22,10 +22,11 @@ import Lambda.Syntax
         ']'             { Token _ TokenCB       }
         '.'             { Token _ TokenDot      }
 
+%right '(' '['
 %left '.'
 %left var lam
 %left APP
-%right '(' '['
+-- %right '(' '['
 
 
 %%
