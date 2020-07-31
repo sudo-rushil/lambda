@@ -20,8 +20,7 @@ process line = do
                     (Bind _ _) -> return ()
                     (Exp expr) -> do
                         putStrLn $ pprint expr
-                        print $ freevars expr
-                        putStrLn $ pprint $ substitute "x" (Var "r") expr
+                        putStrLn $ pprint $ reduce expr
 
 
 main :: IO ()

@@ -35,6 +35,15 @@ freevars (Abs str expr)   = freevars expr `S.difference` S.singleton str
 freevars (App expr expr') = freevars expr `S.union` freevars expr'
 
 
+-- Reduce to irreducible form
+reduce :: Expr -> Expr
+reduce expr
+    | expr == expr' = expr
+    | otherwise = reduce expr'
+    where
+        expr' = betaReduce expr
+
+
 -- Capture avoiding substitution
 substitute :: Name -> Expr -> Expr -> Expr
 substitute var expr (Var name)
@@ -55,4 +64,11 @@ substitute var expr (Abs name expr')
 
 
 varsupply :: S.Set Name -> Name
-varsupply freevars = head [ "x'" ++ show i | i <- [1..], ("x'" ++ show i) `S.notMember` freevars]
+varsupply freevars = head [ "x'" ++ show i | i <- [1..], ("x" ++ show i) `S.notMember` freevars]
+
+
+betaReduce :: Expr -> Expr
+betaReduce (App (Abs name expr) expr') = substitute name expr' expr
+betaReduce (App expr expr') = App (betaReduce expr) (betaReduce expr')
+betaReduce (Abs name expr) = Abs name $ betaReduce expr
+betaReduce expr = expr
