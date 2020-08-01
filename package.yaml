@@ -18,7 +18,6 @@ dependencies:
 - containers >= 0.4
 - mtl >= 2.2
 - bytestring >= 0.10
-- transformers >= 0.3 && < 0.6
 
 library:
   source-dirs: src

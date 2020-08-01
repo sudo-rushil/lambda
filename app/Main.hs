@@ -5,29 +5,26 @@ import           Control.Monad.Trans        (liftIO)
 import qualified Data.ByteString.Lazy.Char8 as B
 import           System.Console.Haskeline
 
--- import           Lambda                     (parse, pprint')
 import           Lambda
 
 
-process :: String -> IO ()
-process line = do
+process :: Bindings -> String -> IO Bindings
+process bindings line = do
         let res = parse $ B.pack line
         case res of
-            Left err -> print err
+            Left err -> print err >> putStrLn "" >> return bindings
             Right ex -> do
-                print ex
-                case ex of
-                    (Bind _ _) -> return ()
-                    (Exp expr) -> do
-                        print $ reduce expr
-                        putStrLn ""
+                bindings' <- run bindings ex
+                putStrLn ""
+                return bindings'
+
 
 
 main :: IO ()
-main = runInputT defaultSettings loop
+main = runInputT defaultSettings (loop initBindings)
     where
-        loop = do
+        loop env = do
             minput <- getInputLine " λ> "
             case minput of
                 Nothing    -> outputStrLn "Exiting..."
-                Just input -> (liftIO $ process input) >> loop
+                Just input -> (liftIO $ process env input) >>= loop

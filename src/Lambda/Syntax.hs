@@ -23,5 +23,5 @@ data Expr = Var Name
 
 
 data Stmt = Exp Expr
-    | Bind Expr Expr
+    | Bind Name Expr
     deriving (Eq, Ord)

@@ -33,7 +33,7 @@ import Lambda.Syntax
 %%
 
 Stmt :: {Stmt}
-     : let var '=' Expr                 { Bind (Var $2) $4 }
+     : let var '=' Expr                 { Bind $2 $4 }
      | Expr                             { Exp $1 }
 
 Expr :: {Expr}

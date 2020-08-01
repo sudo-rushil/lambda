@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: ecf84ae39624d049e5da1aaa6f960a058bc3bccddf9a62081a07635595487b1d
+-- hash: 6700065396b2b6b4e0053c0c8c5280a4634295f159c803a7a08b6aa80f9624fd
 
 name:           lambda
 version:        0.1.0.0
@@ -15,6 +15,7 @@ author:         Rushil Mallarapu
 maintainer:     rushil.mallarapu@gmail.com
 copyright:      Rushil Mallarapu
 license:        MIT
+license-file:   LICENSE
 build-type:     Simple
 extra-source-files:
     README.md
@@ -43,7 +44,6 @@ library
     , containers >=0.4
     , haskeline >=0.7.1
     , mtl >=2.2
-    , transformers >=0.3 && <0.6
   default-language: Haskell2010
 
 executable lambda
@@ -65,5 +65,4 @@ executable lambda
     , haskeline >=0.7.1
     , lambda
     , mtl >=2.2
-    , transformers >=0.3 && <0.6
   default-language: Haskell2010
