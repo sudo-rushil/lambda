@@ -12,15 +12,15 @@ import           Lambda
 main :: IO ()
 main = do
         Options d <- execParser mainParser
-        if d
+        if (not d)
             then runInputT defaultSettings (loop process initBindings)
-            else runInputT defaultSettings (loop debugProcess initBindings)
+            else putStrLn "Running in debug mode" >> runInputT defaultSettings (loop debugProcess initBindings)
     where
-        loop process env = do
+        loop func env = do
             minput <- getInputLine " λ> "
             case minput of
                 Nothing    -> outputStrLn "Exiting..."
-                Just input -> (liftIO $ process env input) >>= loop process
+                Just input -> (liftIO $ func env input) >>= loop func
 
 
 process :: Bindings -> String -> IO Bindings
