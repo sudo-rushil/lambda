@@ -16,6 +16,7 @@ dependencies:
 - array >= 0.5
 - haskeline >= 0.7.1
 - containers >= 0.4
+- optparse-applicative >= 0.15
 - mtl >= 2.2
 - bytestring >= 0.10
 

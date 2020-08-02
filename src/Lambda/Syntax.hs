@@ -19,7 +19,7 @@ type Name = String
 data Expr = Var Name
     | App Expr Expr
     | Abs Name Expr
-    deriving (Eq, Ord)
+    deriving (Eq, Ord, Show)
 
 
 data Stmt = Exp Expr

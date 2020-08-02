@@ -35,7 +35,7 @@ eval :: Stmt -> Lam ()
 eval (Bind nme expr) = modify addBinding
     where
         addBinding bindings = M.insert nme (replace bindings expr) bindings
-eval (Exp expr) = get >>= (liftIO . (\s -> putStrLn $ " " ++ show s) . flip eval' expr)
+eval (Exp expr) = get >>= (liftIO . (\s -> putStrLn $ " " ++ printExpr s) . flip eval' expr)
 
 
 run :: Bindings -> Stmt -> IO Bindings
@@ -127,7 +127,7 @@ instance Show Stmt where
     show (Exp expr)      = "Expr: " ++ show expr
 
 
-instance Show Expr where
-    show (Var str)        = str
-    show (Abs str expr)   = "(λ" ++ str ++ "." ++ show expr ++ ")"
-    show (App expr expr') = "(" ++ show expr ++ " " ++ show expr' ++ ")"
+printExpr :: Expr -> String
+printExpr (Var str)        = str
+printExpr (Abs str expr)   = "(λ" ++ str ++ "." ++ printExpr expr ++ ")"
+printExpr (App expr expr') = "(" ++ printExpr expr ++ " " ++ printExpr expr' ++ ")"
