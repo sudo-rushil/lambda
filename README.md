@@ -25,28 +25,32 @@ This will copy the `lambda` executable into `~/.local/bin`, which should be on y
 ## Example
 
 ```
-λ> (\x.x) y                     -- evaluation
-y
+$ lambda
+ λ> (\x.x) y                     -- evaluation
+ y
 
-λ> (\x.x x)(\x.x x)             -- no infinite recursion
-((λx.(x x)) (λx.(x x)))
+ λ> (\x.x x)(\x.x x)             -- no infinite recursion
+ ((λx.(x x)) (λx.(x x)))
 
-λ> (\y.z)((\x.x x)(\x.x x))     -- normal order reduction
-z
+ λ> (\y.z)((\x.x x)(\x.x x))     -- normal order reduction
+ z
 
-λ> 0                            -- built-in
-(λf.(λx.x))
+ λ> (\p q.p q p)                 -- multiple binding syntax
+ (\p.\q.p q p)
 
-λ> 1                            -- built-in
-(λf.(λx.(f x)))
+ λ> 0                            -- built-in
+ (λf.(λx.x))
 
-λ> succ                         -- built-in
-(λn.(λf.(λx.(f ((n f) x)))))
+ λ> 1                            -- built-in
+ (λf.(λx.(f x)))
 
-λ> let 2 = succ 1               -- define new bindings
+ λ> succ                         -- built-in
+ (λn.(λf.(λx.(f ((n f) x)))))
 
-λ> 2                            -- new bindings are visible
-(λf.(λx.(f (f x))))
+ λ> let 2 = succ 1               -- define new bindings
+
+ λ> 2                            -- new bindings are visible
+ (λf.(λx.(f (f x))))
 
 ```
 
@@ -80,6 +84,25 @@ Here, all instances of variable `x` within expression `E` are substituted by `F`
 
 In `lambda`, the only major difference between the formal lambda calculus grammar and the interpreter grammar is the use of `\` instead of the `λ` symbol. We encourage you to play around with writing abstractions, applications, and the like to get used to thinking in terms of the lambda calculus.
 
+In addition, pass the `-d` flag to the `lambda` executable to get a debug printout of the AST your input parses into.
+
+#### Syntactic Sugars
+
+For convenience, we support the syntax of having multiple variables bound by a single lambda. Note that, because identifers in `Lambda` can be more than one character, separate variables need to be whitespace separated.
+
+```
+$ lambda -d
+Running in debug mode
+ λ> \xyz.x y z
+Expr: Abs "xyz" (App (App (Var "x") (Var "y")) (Var "z"))
+ (λxyz.((x y) z))
+
+ λ> \x y z.x y z
+Expr: Abs "x" (Abs "y" (Abs "z" (App (App (Var "x") (Var "y")) (Var "z"))))
+ (λx.(λy.(λz.((x y) z))))
+
+```
+
 #### Bindings
 
 In order to make `lambda` a bit more practical than the frugal pure lambda calculus, we allow for binding lambda expressions to variables using `let` statements.
@@ -106,5 +129,6 @@ Any bindings you make with `let` last until the end of the session. If you feel 
 
 
 ## TODO:
-- eta reductions
+- Eta reductions
+- Files and stdlib
 - de Bruijn notation
