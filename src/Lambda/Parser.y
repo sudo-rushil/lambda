@@ -37,12 +37,22 @@ Stmt :: {Stmt}
      | Expr                             { Exp $1 }
 
 Expr :: {Expr}
-     : lam var '.' Expr                 { Abs $2 $4 }
+     : lam Vars '.' Expr                { expandBindings (reverse $2) $4 }
      | Expr Expr %prec APP              { App $1 $2 }
      | var                              { Var $1 }
      | '(' Expr ')'                     { $2 }
      | '[' Expr ']'                     { $2 }
 
+Vars :: {[Name]}
+     : var                              { [$1] }
+     | Vars var                         { $2 : $1 }
 
 
-{}
+{
+
+-- Expansion of multiple lambda binding syntactic sugar
+expandBindings :: [Name] -> Expr -> Expr
+expandBindings [name] expr       = Abs name expr
+expandBindings (name:names) expr = Abs name (expandBindings names expr)
+
+}

@@ -123,8 +123,8 @@ varsupply freevars = head [ "x'" ++ show i | i <- [1..], ("x" ++ show i) `S.notM
 -- Instances
 
 instance Show Stmt where
-    show (Bind nme expr) = "Bind: " ++ nme ++ " = " ++ show expr
-    show (Exp expr)      = "Expr: " ++ show expr
+    show (Bind name expr) = "Bind: " ++ name ++ " = " ++ show expr
+    show (Exp expr)       = "Expr: " ++ show expr
 
 
 printExpr :: Expr -> String
