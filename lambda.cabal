@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 008301d5ef6d264f51fa1a9f9893203ac1d631ba996a97df217c3253a5ca9596
+-- hash: d24dfb2eed637c6bfff0fbbc50849575309c8275343c3c7941e0bc86a7781829
 
 name:           lambda
 version:        0.1.0.0
@@ -26,6 +26,13 @@ source-repository head
 
 library
   exposed-modules:
+      Control
+      Control.Args
+      Control.Cmd
+      Control.Eval
+      Control.Module
+      Control.Repl
+      Control.Run
       Lambda
       Lambda.Lex
       Lambda.Lexer

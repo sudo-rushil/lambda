@@ -119,18 +119,3 @@ freevars (App expr expr') = freevars expr `S.union` freevars expr'
 
 varsupply :: S.Set Name -> Name
 varsupply freevars = head [ "x'" ++ show i | i <- [1..], ("x" ++ show i) `S.notMember` freevars]
-
-
--- Instances
-
-instance Show Stmt where
-    show (Bind name expr) = "Bind: " ++ name ++ " = " ++ show expr
-    show (Exp expr)       = "Expr: " ++ show expr
-    show (Use file)       = "Use:  " ++ file
-    show (Cmd name expr)  = "Cmd:  " ++ name ++ " " ++ show expr
-
-
-printExpr :: Expr -> String
-printExpr (Var str)        = str
-printExpr (Abs str expr)   = "(λ" ++ str ++ "." ++ printExpr expr ++ ")"
-printExpr (App expr expr') = "(" ++ printExpr expr ++ " " ++ printExpr expr' ++ ")"

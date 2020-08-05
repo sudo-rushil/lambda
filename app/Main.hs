@@ -11,7 +11,7 @@ import           Lambda
 
 main :: IO ()
 main = do
-    file <- B.pack <$> readFile "test/stdlib.lc"
+    file <- B.readFile "test/stdlib.lc"
     case parse file of
         Left err -> print err
         Right ex -> do

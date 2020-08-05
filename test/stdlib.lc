@@ -1,11 +1,10 @@
---modules
+-- modules
 use "stdlib.lc"
 
 -- commands
 :put \f x.x
 
 -- define church numerals
-
 let 0       = \f x.x
 let 1       = \f x.f x
 let succ    = \n f x.f (n f x)

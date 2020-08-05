@@ -2,6 +2,8 @@
 
 An interpreter for the untyped lambda calculus.
 
+### Coming Soon: `.lc` files and a module system.
+
 ## Overview
 
 `lambda` is a straightforward REPL for lambda expressions. On top of the standard syntax of the lambda calculus, it also enables named bindings, while maintaining functional purity. This makes it a good way to build an understanding of the lambda calculus. Moreover, the source code is all straightforward, providing a readable example of (simple) language implementation using tools like Alex and Happy.
@@ -140,4 +142,19 @@ Any bindings you make with `let` last until the end of the session. If you feel 
 - Decide on an interpreter semantics; for which lambda statements are the reductions printed? all? the last?
       - Also determines how commands work, and whether they're even necessary
 - Actually implement use (module imports) and cmd (interpreter commands like io, etc.)
-- Add bytestring-native input; get rid of the artificial conversion
+
+## Project Structure
+- Lambda
+ - Lambda.Lex
+ - Lambda.Parse
+ - Lambda.Reduce -- eval expressions (decide before/after bound variable expansion)
+ - Lambda.Syntax
+ - Lambda.Lexer
+ - Lambda.Parser
+- Control
+ - Control.Eval
+ - Control.Cmd
+ - Control.Module
+ - Control.Args
+ - Control.Repl
+ - Control.Run
