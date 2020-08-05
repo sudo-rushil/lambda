@@ -15,6 +15,7 @@ import Lambda.Syntax
         let             { Token _ TokenLet      }
         use             { Token _ TokenUse      }
         cmd             { Token _ (TokenCmd $$) }
+        file            { Token _ (TokenFile $$)}
         var             { Token _ (TokenVar $$) }
         '='             { Token _ TokenEq       }
         lam             { Token _ TokenLam      }
@@ -41,7 +42,7 @@ File :: {[Stmt]}
 
 Stmt :: {Stmt}
      : let var '=' Expr                 { Bind $2 $4 }
-     | use var                          { Use $2 }
+     | use file                         { Use (trim $2) }
      | cmd Expr                         { Cmd $1 $2 }
      | Expr                             { Exp $1 }
 
@@ -64,4 +65,8 @@ expandBindings :: [Name] -> Expr -> Expr
 expandBindings [name] expr       = Abs name expr
 expandBindings (name:names) expr = Abs name (expandBindings names expr)
 
+
+-- Trim artifical quotation marks from filename
+trim :: File -> File
+trim = tail.init
 }

@@ -1,5 +1,5 @@
 --modules
-use stdlib
+use "stdlib.lc"
 
 -- commands
 :put \f x.x

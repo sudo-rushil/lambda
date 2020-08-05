@@ -34,6 +34,9 @@ $digit = 0-9                    -- digits
 $alpha = [a-zA-Z]
 $idens = $printable # [\\=\(\)\[\]\.\ \t\n\f\v\r]
 
+$graphic = $printable # $white
+@string = \" ($graphic # \") * \"
+
 
 tokens :-
 
@@ -43,6 +46,7 @@ tokens :-
   let                                   { tok          TokenLet }
   use                                   { tok          TokenUse }
   :$idens+                              { tok_string   TokenCmd }
+  @string                               { tok_string   TokenFile}
   [=]                                   { tok          TokenEq }
   [\\]                                  { tok          TokenLam }
   [\(]                                  { tok          TokenOP }
@@ -71,6 +75,7 @@ data TokenClass
  | TokenLet
  | TokenUse
  | TokenCmd    String
+ | TokenFile   String
  | TokenVar    String
  | TokenEq
  | TokenLam
