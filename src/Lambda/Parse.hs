@@ -35,12 +35,12 @@ data Error = Error
     deriving (Show, Eq)
 
 
-parse :: B.ByteString -> Either Error Stmt
+parse :: B.ByteString -> Either Error [Stmt]
 parse s =
     let showErrPrefix = "show-error: " :: String
         lexicalErrPrefix = "lexical error at line " :: String
     in case runAlex s $ happyParser of
-        Right x -> Right x
+        Right x -> Right (reverse x) -- stmts get parsed in reverse
         Left str | showErrPrefix `isPrefixOf` str ->
                     let (line, column, m) =
                             (read (drop (length showErrPrefix) str) :: (Int, Int, Maybe String))

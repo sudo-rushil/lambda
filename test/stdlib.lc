@@ -1,0 +1,12 @@
+-- define church numerals
+
+let 0       = \f x.x
+let 1       = \f x.f x
+let succ    = \n f x.f (n f x)
+
+-- define 2 and 3
+let 2       = succ 1
+let 3       = succ 2
+
+-- return 3
+3

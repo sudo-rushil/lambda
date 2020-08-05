@@ -21,6 +21,7 @@ import Lambda.Syntax
         '['             { Token _ TokenOB       }
         ']'             { Token _ TokenCB       }
         '.'             { Token _ TokenDot      }
+        ln              { Token _ TokenLine     }
 
 -- %right '(' '['
 %left '.'
@@ -31,6 +32,11 @@ import Lambda.Syntax
 
 
 %%
+
+File :: {[Stmt]}
+     : {-- empty --}                    { [] }
+     | File ln Stmt                     { $3 : $1 }
+     | File ln                          { $1 }          -- handle trailing lines
 
 Stmt :: {Stmt}
      : let var '=' Expr                 { Bind $2 $4 }

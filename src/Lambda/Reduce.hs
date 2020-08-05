@@ -38,8 +38,8 @@ eval (Bind nme expr) = modify addBinding
 eval (Exp expr) = get >>= (liftIO . (\s -> putStrLn $ " " ++ printExpr s) . flip eval' expr)
 
 
-run :: Bindings -> Stmt -> IO Bindings
-run state = flip execStateT state . eval
+run :: Bindings -> [Stmt] -> IO Bindings
+run state = flip execStateT state . mapM_ eval
 
 
 initBindings :: Bindings

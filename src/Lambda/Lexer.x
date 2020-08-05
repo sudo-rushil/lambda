@@ -37,6 +37,7 @@ $idens = $printable # [\\=\(\)\[\]\.\ \t\n\f\v\r]
 
 tokens :-
 
+  [\n]+                                 { tok          TokenLine }
   $white+                               ;
   "--".*                                ;
   let                                   { tok          TokenLet }
@@ -64,7 +65,8 @@ tokenToPosN :: Token -> AlexPosn
 tokenToPosN (Token p _) = p
 
 data TokenClass
- = TokenLet
+ = TokenLine
+ | TokenLet
  | TokenVar    String
  | TokenEq
  | TokenLam
