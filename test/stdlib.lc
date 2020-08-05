@@ -1,3 +1,9 @@
+--modules
+use stdlib
+
+-- commands
+:put \f x.x
+
 -- define church numerals
 
 let 0       = \f x.x

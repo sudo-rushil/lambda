@@ -36,6 +36,7 @@ eval (Bind nme expr) = modify addBinding
     where
         addBinding bindings = M.insert nme (replace bindings expr) bindings
 eval (Exp expr) = get >>= (liftIO . (\s -> putStrLn $ " " ++ printExpr s) . flip eval' expr)
+eval _ = return ()
 
 
 run :: Bindings -> [Stmt] -> IO Bindings
@@ -125,6 +126,8 @@ varsupply freevars = head [ "x'" ++ show i | i <- [1..], ("x" ++ show i) `S.notM
 instance Show Stmt where
     show (Bind name expr) = "Bind: " ++ name ++ " = " ++ show expr
     show (Exp expr)       = "Expr: " ++ show expr
+    show (Use file)       = "Use: " ++ file
+    show (Cmd name expr)  = "Cmd: " ++ name ++ " " ++ show expr
 
 
 printExpr :: Expr -> String

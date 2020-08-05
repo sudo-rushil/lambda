@@ -11,11 +11,12 @@ import           Lambda
 
 main :: IO ()
 main = do
-    file <- B.pack <$> readFile "test/stdlib.lc"
+    rawfile <- B.pack <$> readFile "test/stdlib.lc"
+    let file = "\n" <> rawfile
     case parse file of
         Left err -> print err
         Right ex -> do
-            print ex
+            mapM_ print ex
             run initBindings ex
             return ()
 

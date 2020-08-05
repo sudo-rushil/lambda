@@ -41,6 +41,8 @@ tokens :-
   $white+                               ;
   "--".*                                ;
   let                                   { tok          TokenLet }
+  use                                   { tok          TokenUse }
+  :$idens+                              { tok_string   TokenCmd }
   [=]                                   { tok          TokenEq }
   [\\]                                  { tok          TokenLam }
   [\(]                                  { tok          TokenOP }
@@ -67,6 +69,8 @@ tokenToPosN (Token p _) = p
 data TokenClass
  = TokenLine
  | TokenLet
+ | TokenUse
+ | TokenCmd    String
  | TokenVar    String
  | TokenEq
  | TokenLam

@@ -10,10 +10,12 @@ module Lambda.Syntax
     ( Expr(..)
     , Stmt(..)
     , Name
+    , File
     ) where
 
 
 type Name = String
+type File = String
 
 
 data Expr = Var Name
@@ -24,4 +26,6 @@ data Expr = Var Name
 
 data Stmt = Exp Expr
     | Bind Name Expr
+    | Use File
+    | Cmd Name Expr
     deriving (Eq, Ord)

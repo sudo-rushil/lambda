@@ -132,3 +132,16 @@ Any bindings you make with `let` last until the end of the session. If you feel 
 - Eta reductions
 - Files and stdlib
 - de Bruijn notation
+
+
+## Notes for implementing modules:
+- Will have to check against cyclic imports
+- Refactor app into a Repl.hs with all the repl-based processes that gets invoked if there are no file imports
+- Decide on an interpreter semantics; for which lambda statements are the reductions printed? all? the last?
+      - Also determines how commands work, and whether they're even necessary
+- Figure out how to use file extensions in import statements
+      - Prob need a special rule for filenames
+      - Startcodes in Alex
+- Actually implement use (module imports) and cmd (interpreter commands like io, etc.)
+- Figure out how to include empty beginning lines; currently hacked with adding a false newline to the input
+- Add bytestring-native input; get rid of the artificial conversion

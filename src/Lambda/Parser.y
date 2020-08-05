@@ -13,6 +13,8 @@ import Lambda.Syntax
 
 %token
         let             { Token _ TokenLet      }
+        use             { Token _ TokenUse      }
+        cmd             { Token _ (TokenCmd $$) }
         var             { Token _ (TokenVar $$) }
         '='             { Token _ TokenEq       }
         lam             { Token _ TokenLam      }
@@ -23,12 +25,11 @@ import Lambda.Syntax
         '.'             { Token _ TokenDot      }
         ln              { Token _ TokenLine     }
 
--- %right '(' '['
+
 %left '.'
 %left var lam
 %right '(' '['
 %left APP
--- %right '(' '['
 
 
 %%
@@ -40,6 +41,8 @@ File :: {[Stmt]}
 
 Stmt :: {Stmt}
      : let var '=' Expr                 { Bind $2 $4 }
+     | use var                          { Use $2 }
+     | cmd Expr                         { Cmd $1 $2 }
      | Expr                             { Exp $1 }
 
 Expr :: {Expr}
