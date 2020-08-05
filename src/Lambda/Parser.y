@@ -37,7 +37,7 @@ import Lambda.Syntax
 
 File :: {[Stmt]}
      : {-- empty --}                    { [] }
-     | File ln Stmt                     { $3 : $1 }
+     | File Stmt ln                     { $2 : $1 }
      | File ln                          { $1 }          -- handle trailing lines
 
 Stmt :: {Stmt}
