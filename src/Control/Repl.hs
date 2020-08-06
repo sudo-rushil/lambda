@@ -15,7 +15,7 @@ module Control.Repl
 
 
 import           Control.Monad.Trans        (liftIO)
-import           Data.ByteString.Lazy.Char8 (pack)
+import qualified Data.ByteString.Lazy.Char8 as B
 import           System.Console.Haskeline
 
 
@@ -44,7 +44,7 @@ loop debug func env = do
 
 process :: (Bool -> Bindings -> String -> IO Bindings)
 process debug bindings line = do
-    case parse $ pack line <> "\n" of
+    case parse $ B.pack line <> "\n" of
         Left err   -> print err >> return bindings
         Right stmt ->
             if debug

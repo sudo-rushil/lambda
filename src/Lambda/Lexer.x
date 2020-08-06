@@ -36,11 +36,12 @@ $idens = $printable # [\\=\(\)\[\]\.\ \t\n\f\v\r]
 
 $graphic = $printable # $white
 @string = \" ($graphic # \") * \"
+@newline = $white* [\n]+ $white*
 
 
 tokens :-
 
-  [\n]+                                 { tok          TokenLine }
+  @newline                              { tok          TokenLine }
   $white+                               ;
   "--".*                                ;
   let                                   { tok          TokenLet }

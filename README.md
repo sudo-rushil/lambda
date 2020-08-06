@@ -147,7 +147,6 @@ Any bindings you make with `let` last until the end of the session. If you feel 
 - Decide on an interpreter semantics; for which lambda statements are the reductions printed? all? the last?
       - Also determines how commands work, and whether they're even necessary
 - Actually implement use (module imports) and cmd (interpreter commands like io, etc.)
-- Trim trailing spaces in parser
 
 
 ## Project Structure
