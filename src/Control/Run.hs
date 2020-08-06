@@ -12,11 +12,18 @@ module Control.Run
     ) where
 
 
-import           Control.Eval   (eval, initBindings)
-import           Control.Module (readLC)
+import           System.Directory (makeAbsolute, withCurrentDirectory)
+import           System.FilePath  (takeDirectory)
+
+import           Control.Eval     (eval, initBindings)
+import           Control.Module   (readLC)
 
 
 -- Run file starting from init bindings
 
 run :: FilePath -> IO ()
-run file = readLC file >>= eval initBindings >> return ()
+run file = do
+    runDir <- takeDirectory <$> makeAbsolute file
+    contents <- readLC file
+    withCurrentDirectory runDir $ eval initBindings contents
+    return ()
