@@ -144,10 +144,11 @@ Any bindings you make with `let` last until the end of the session. If you feel 
             - when importing with "use" only the let statements are evaluated
             - let stmts are evaluated in the order on the file, and files are evaluated in the order they are imported
             - any new let will override any previous one
-- Refactor app into a Repl.hs with all the repl-based processes that gets invoked if there are no file imports
 - Decide on an interpreter semantics; for which lambda statements are the reductions printed? all? the last?
       - Also determines how commands work, and whether they're even necessary
 - Actually implement use (module imports) and cmd (interpreter commands like io, etc.)
+- Trim trailing spaces in parser
+
 
 ## Project Structure
 - Lambda

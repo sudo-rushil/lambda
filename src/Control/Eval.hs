@@ -9,7 +9,7 @@ Maintainer  : Rushil Mallarapu
 module Control.Eval
     ( Bindings
     , initBindings
-    , run
+    , eval
     ) where
 
 
@@ -30,24 +30,24 @@ type Lam a = StateT Bindings IO a
 
 -- Evaluator
 
-run :: Bindings     -- initial bindings
-    -> [Stmt]       -- list of statements
-    -> IO Bindings  -- final bindings in IO
-run state = flip execStateT state . mapM_ eval
+eval :: Bindings    -- initial bindings
+     -> [Stmt]       -- list of statements
+     -> IO Bindings  -- final bindings in IO
+eval state = flip execStateT state . mapM_ eval'
 
 
-eval :: Stmt -> Lam ()
-eval (Bind name expr) = modify addBinding
+eval' :: Stmt -> Lam ()
+eval' (Bind name expr) = modify addBinding
     where
         addBinding bindings = M.insert name (replace bindings expr) bindings
-eval (Exp expr) = get >>= (liftIO . putStrLn . printExpr . flip eval' expr)
-eval _ = return () -- implement use and cmd
+eval' (Exp expr) = get >>= (liftIO . putStrLn . printExpr . flip evalExpr expr)
+eval' _ = return () -- implement use and cmd
 
 
 -- State-aware evaluation of Exprs
 
-eval' :: Bindings -> Expr -> Expr
-eval' bindings = reduce . replace bindings
+evalExpr :: Bindings -> Expr -> Expr
+evalExpr bindings = reduce . replace bindings
 
 
 replace :: Bindings -> Expr -> Expr
