@@ -1,0 +1,24 @@
+-- Lambda Standard Library
+-- Loaded at the beginning of interpreter session
+
+-- Church numerals
+let succ    = \n f x.f (n f x)
+
+let 0       = \f x.x
+let 1       = succ 0
+let 2       = succ 1
+let 3       = succ 2
+let 4       = succ 3
+let 5       = succ 4
+let 6       = succ 5
+let 7       = succ 6
+let 8       = succ 7
+let 9       = succ 8
+
+
+-- Booleans
+let #t      = \t f.t
+let #f      = \t f.f
+
+let and     = \p q.p q p
+let or      = \p q.p p q

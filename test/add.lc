@@ -1,0 +1,13 @@
+-- modules
+use "add.lc"
+
+-- commands
+:put \f x.x
+
+-- define 2 and 3
+let 2 = a
+let 2 = b
+let 2 = a
+
+-- return 3
+2
