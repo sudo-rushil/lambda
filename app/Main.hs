@@ -3,21 +3,26 @@ module Main where
 
 import           Control.Monad.Trans        (liftIO)
 import qualified Data.ByteString.Lazy.Char8 as B
-import           Options.Applicative
+-- import           Options.Applicative
 import           System.Console.Haskeline
 
 import           Lambda
 
+import           Control.Args
 
-main :: IO ()
+
 main = do
-    file <- B.readFile "test/stdlib.lc"
-    case parse file of
-        Left err -> print err
-        Right ex -> do
-            mapM_ print ex
-            run initBindings ex
-            return ()
+    opts <- execParser mainParser
+    print opts
+-- main :: IO ()
+-- main = do
+--     file <- B.readFile "test/stdlib.lc"
+--     case parse file of
+--         Left err -> print err
+--         Right ex -> do
+--             mapM_ print ex
+--             run initBindings ex
+--             return ()
 
 -- main :: IO ()
 -- main = do
@@ -58,23 +63,23 @@ main = do
 
 -- Command line options
 
-data Options = Options
-    { debug :: Bool
-    }
-
-
-mainParser :: ParserInfo Options
-mainParser = info (optionsParser <**> helper)
-    ( fullDesc
-    <> progDesc "Lambda calculus REPL"
-    <> header "lambda - untyped lambda calculus interpreter"
-    )
-
-
-optionsParser :: Parser Options
-optionsParser = Options
-    <$> switch
-        ( long "debug"
-        <> short 'd'
-        <> help "Run interpreter in debug mode"
-        )
+-- data Options = Options
+--     { debug :: Bool
+--     }
+--
+--
+-- mainParser :: ParserInfo Options
+-- mainParser = info (optionsParser <**> helper)
+--     ( fullDesc
+--     <> progDesc "Lambda calculus REPL"
+--     <> header "lambda - untyped lambda calculus interpreter"
+--     )
+--
+--
+-- optionsParser :: Parser Options
+-- optionsParser = Options
+--     <$> switch
+--         ( long "debug"
+--         <> short 'd'
+--         <> help "Run interpreter in debug mode"
+--         )
