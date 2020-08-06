@@ -13,7 +13,7 @@ module Control.State
 
 
 import           Control.Monad.State (StateT)
-import           Data.Map            (Map)
+import           Data.Map.Strict     (Map)
 
 import           Lambda.Syntax       (Expr, Name)
 

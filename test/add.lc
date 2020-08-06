@@ -5,9 +5,8 @@ use "add.lc"
 :put \f x.x
 
 -- define 2 and 3
-let 2 = a
-let 2 = b
-let 2 = a
+let 1 = succ 0
+let 2 = succ 1
 
 -- return 3
 2

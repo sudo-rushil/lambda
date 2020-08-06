@@ -19,7 +19,8 @@ module Control.Module
 
 import           Control.Monad.State        (execStateT, get, lift, put)
 import qualified Data.ByteString.Lazy.Char8 as B
-import qualified Data.Map                   as M
+import           Data.List                  (foldl')
+import qualified Data.Map.Strict            as M
 
 import           Control.State              (Bindings, Lam)
 import           Lambda.Parse               (parse)
@@ -37,7 +38,7 @@ use file = do
     put $ newBindings bindings imports
     return ()
     where
-        newBindings = foldr (\(Bind name expr) acc -> addBinding name expr acc)
+        newBindings = foldl' (\acc (Bind name expr) -> addBinding name expr acc)
 
 
 filterBinds :: [Stmt] -> [Stmt]
@@ -71,24 +72,10 @@ replace bindings (Abs name expr) =
     Abs name (replace bindings expr)
 
 
--- Primitive bindings -- will put in a stdlib.lc
+-- Primitive bindings
 
 initBindings :: IO Bindings
 initBindings = do
     stdlib <- getDataFileName "stdlib.lc"
     bindings <- execStateT (use stdlib) M.empty
-    print bindings
     return bindings
-
-
-
-primitiveBindings :: [(Name, Expr)]
-primitiveBindings =
-    [ ("0", Abs "f" (Abs "x" (Var "x")))
-    , ("1", Abs "f" (Abs "x" (App (Var "f") (Var "x"))))
-    , ("succ",  Abs "n" (Abs "f" (Abs "x" (App (Var "f") (App (App (Var "n") (Var "f")) (Var "x"))))))
-    , ("#t", Abs "t" (Abs "f" (Var "t")))
-    , ("#f", Abs "t" (Abs "f" (Var "f")))
-    , ("and", Abs "p" (Abs "q" (App (App (Var "p") (Var "q"))  (Var "p"))))
-    , ("or", Abs "p" (Abs "q" (App (App (Var "p") (Var "p"))  (Var "q"))))
-    ]

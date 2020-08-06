@@ -149,3 +149,4 @@ Any bindings you make with `let` last until the end of the session. If you feel 
 - cmds:
  - ast - prints expr ast
  - read - read input into var
+ - put - prints expr (if expr is a value, prints key)
