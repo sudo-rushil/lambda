@@ -10,7 +10,6 @@ module Lambda.Syntax
     ( Expr(..)
     , Stmt(..)
     , Name
-    , File
     , printExpr
     ) where
 
@@ -18,7 +17,6 @@ module Lambda.Syntax
 -- AST Types
 
 type Name = String
-type File = String
 
 
 data Expr = Var Name
@@ -29,7 +27,7 @@ data Expr = Var Name
 
 data Stmt = Exp Expr
     | Bind Name Expr
-    | Use File
+    | Use FilePath
     | Cmd Name Expr
     deriving (Eq, Ord)
 

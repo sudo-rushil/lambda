@@ -38,7 +38,7 @@ loop debug func env = do
         Nothing    -> outputStrLn "Exiting..."
         Just input -> (liftIO $ output input) >>= loop debug func
     where
-        output inp = putStr " " >> func debug env inp `through` putStrLn ""
+        output inp = putStr " " >> func debug env inp <* putStrLn ""
 
 
 process :: (Bool -> Bindings -> String -> IO Bindings)
@@ -49,9 +49,3 @@ process debug bindings line = do
             if debug
                 then print (head stmt) >> putStr " " >> eval bindings stmt
                 else eval bindings stmt
-
-
--- Helper function for threading values through monadic actions
-
-through :: Monad m => m a -> m b -> m a
-through a b = a >>= (\a' -> b >> return a')
