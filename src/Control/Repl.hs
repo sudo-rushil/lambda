@@ -25,7 +25,7 @@ import           Lambda.Parse               (parse)
 -- Run REPL starting from init bindings
 
 repl :: Bool -> IO ()
-repl debug = runInputT defaultSettings (loop debug process initBindings)
+repl debug = initBindings >>= (runInputT defaultSettings . loop debug process)
 
 
 loop :: Bool -- debug flag

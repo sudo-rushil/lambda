@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: c98d9255a5775fa10c53ae536622b8d4a54763c62f1eeca4a52f149adc49d580
+-- hash: 4e2df0dea724972e4006fc9d384794c6d96053259b9f62358f17598aa6645b3e
 
 name:           lambda
 version:        0.2.0.0
@@ -19,6 +19,8 @@ license-file:   LICENSE
 build-type:     Simple
 extra-source-files:
     README.md
+data-files:
+    stdlib.lc
 
 source-repository head
   type: git

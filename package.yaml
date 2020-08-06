@@ -9,6 +9,9 @@ copyright:           "Rushil Mallarapu"
 extra-source-files:
 - README.md
 
+data-files:
+- stdlib.lc
+
 description:         Please see the README on GitHub at <https://github.com/sudo-rushil/lambda#readme>
 
 dependencies:

@@ -25,5 +25,6 @@ run :: FilePath -> IO ()
 run file = do
     runDir <- takeDirectory <$> makeAbsolute file
     contents <- readLC file
-    withCurrentDirectory runDir $ eval initBindings contents
+    bindings <- initBindings
+    withCurrentDirectory runDir $ eval bindings contents
     return ()

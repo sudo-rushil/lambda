@@ -17,13 +17,15 @@ module Control.Module
     , initBindings
     ) where
 
-import           Control.Monad.State        (get, lift, put)
+import           Control.Monad.State        (execStateT, get, lift, put)
 import qualified Data.ByteString.Lazy.Char8 as B
 import qualified Data.Map                   as M
 
 import           Control.State              (Bindings, Lam)
 import           Lambda.Parse               (parse)
 import           Lambda.Syntax
+
+import           Paths_lambda               (getDataFileName)
 
 
 -- Use operation to pull in bindings from external files
@@ -49,7 +51,7 @@ readLC file = do
     content <- B.readFile file
     case parse content of
         Left err    -> print err >> return []
-        Right stmts -> mapM_ print stmts >> return stmts
+        Right stmts -> return stmts
 
 
 -- Bind operations
@@ -59,20 +61,25 @@ addBinding name expr bindings = M.insert name (replace bindings expr) bindings
 
 
 replace :: Bindings -> Expr -> Expr
-replace bindings (Var nme) =
-    case bindings M.!? nme of
-        Nothing   -> Var nme
+replace bindings (Var name) =
+    case bindings M.!? name of
+        Nothing   -> Var name
         Just expr -> expr
 replace bindings (App expr expr') =
     App (replace bindings expr) (replace bindings expr')
-replace bindings (Abs nme expr) =
-    Abs nme (replace bindings expr)
+replace bindings (Abs name expr) =
+    Abs name (replace bindings expr)
 
 
 -- Primitive bindings -- will put in a stdlib.lc
 
-initBindings :: Bindings
-initBindings = M.fromList primitiveBindings
+initBindings :: IO Bindings
+initBindings = do
+    stdlib <- getDataFileName "stdlib.lc"
+    bindings <- execStateT (use stdlib) M.empty
+    print bindings
+    return bindings
+
 
 
 primitiveBindings :: [(Name, Expr)]
