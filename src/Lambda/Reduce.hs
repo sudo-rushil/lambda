@@ -1,80 +1,22 @@
 {-|
 Module      : Lambda.Reduce
-Description : Reduction operations for λ terms
+Description : Reduction operations for λ terms: Exprs
 
 License     : MIT
 Maintainer  : Rushil Mallarapu
 -}
 
 module Lambda.Reduce
-    ( Bindings
-    , initBindings
-    , run
+    ( reduce
     ) where
 
 
-import           Control.Monad.State (StateT, execStateT, get, liftIO, modify)
-import qualified Data.Map            as M
-import qualified Data.Set            as S
-
+import qualified Data.Set      as S
 
 import           Lambda.Syntax
 
 
--- Evaluation types
-
-type Bindings = M.Map Name Expr
-
-
-type Lam a = StateT Bindings IO a
-
-
--- Evaluator
-
-eval :: Stmt -> Lam ()
-eval (Bind nme expr) = modify addBinding
-    where
-        addBinding bindings = M.insert nme (replace bindings expr) bindings
-eval (Exp expr) = get >>= (liftIO . (\s -> putStrLn $ " " ++ printExpr s) . flip eval' expr)
-eval _ = return ()
-
-
-run :: Bindings -> [Stmt] -> IO Bindings
-run state = flip execStateT state . mapM_ eval
-
-
-initBindings :: Bindings
-initBindings = M.fromList primitiveBindings
-
-
-primitiveBindings :: [(Name, Expr)]
-primitiveBindings =
-    [ ("0", Abs "f" (Abs "x" (Var "x")))
-    , ("1", Abs "f" (Abs "x" (App (Var "f") (Var "x"))))
-    , ("succ",  Abs "n" (Abs "f" (Abs "x" (App (Var "f") (App (App (Var "n") (Var "f")) (Var "x"))))))
-    , ("#t", Abs "t" (Abs "f" (Var "t")))
-    , ("#f", Abs "t" (Abs "f" (Var "f")))
-    , ("and", Abs "p" (Abs "q" (App (App (Var "p") (Var "q"))  (Var "p"))))
-    , ("or", Abs "p" (Abs "q" (App (App (Var "p") (Var "p"))  (Var "q"))))
-    ]
-
-
--- Evaluation of lambda expressions
-
-eval' :: Bindings -> Expr -> Expr
-eval' bindings = reduce . replace bindings
-
-
-replace :: Bindings -> Expr -> Expr
-replace bindings (Var nme) =
-    case bindings M.!? nme of
-        Nothing   -> Var nme
-        Just expr -> expr
-replace bindings (App expr expr') =
-    App (replace bindings expr) (replace bindings expr')
-replace bindings (Abs nme expr) =
-    Abs nme (replace bindings expr)
-
+-- Reduction of lambda expressions
 
 reduce :: Expr -> Expr
 reduce expr

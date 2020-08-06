@@ -133,11 +133,17 @@ Any bindings you make with `let` last until the end of the session. If you feel 
 ## TODO:
 - Eta reductions
 - Files and stdlib
+- Move primitives from haskell to lc
+- Bytecode and VM (in C?)
 - de Bruijn notation
 
 
 ## Notes for implementing modules:
 - Will have to check against cyclic imports
+      - Instead;
+            - when importing with "use" only the let statements are evaluated
+            - let stmts are evaluated in the order on the file, and files are evaluated in the order they are imported
+            - any new let will override any previous one
 - Refactor app into a Repl.hs with all the repl-based processes that gets invoked if there are no file imports
 - Decide on an interpreter semantics; for which lambda statements are the reductions printed? all? the last?
       - Also determines how commands work, and whether they're even necessary
@@ -147,7 +153,7 @@ Any bindings you make with `let` last until the end of the session. If you feel 
 - Lambda
  - Lambda.Lex
  - Lambda.Parse
- - Lambda.Reduce -- eval expressions (decide before/after bound variable expansion)
+ - Lambda.Reduce
  - Lambda.Syntax
  - Lambda.Lexer
  - Lambda.Parser

@@ -35,7 +35,7 @@ main = do
 --             minput <- getInputLine " λ> "
 --             case minput of
 --                 Nothing    -> outputStrLn "Exiting..."
---                 Just input -> (liftIO $ func env input) >>= loop func
+--                 Just input -> (liftIO $ putStr " " >> func env input) >>= loop func
 
 
 -- process :: Bindings -> String -> IO Bindings
@@ -59,27 +59,3 @@ main = do
 --                 bindings' <- run bindings ex
 --                 putStrLn ""
 --                 return bindings'
-
-
--- Command line options
-
--- data Options = Options
---     { debug :: Bool
---     }
---
---
--- mainParser :: ParserInfo Options
--- mainParser = info (optionsParser <**> helper)
---     ( fullDesc
---     <> progDesc "Lambda calculus REPL"
---     <> header "lambda - untyped lambda calculus interpreter"
---     )
---
---
--- optionsParser :: Parser Options
--- optionsParser = Options
---     <$> switch
---         ( long "debug"
---         <> short 'd'
---         <> help "Run interpreter in debug mode"
---         )
