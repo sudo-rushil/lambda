@@ -18,7 +18,6 @@ import           Control.Monad.Trans        (liftIO)
 import qualified Data.ByteString.Lazy.Char8 as B
 import           System.Console.Haskeline
 
-
 import           Control.Eval               (Bindings, eval, initBindings)
 import           Lambda.Parse               (parse)
 
@@ -55,7 +54,4 @@ process debug bindings line = do
 -- Helper function for threading values through monadic actions
 
 through :: Monad m => m a -> m b -> m a
-through a b = do
-    a' <- a
-    b
-    return a'
+through a b = a >>= (\a' -> b >> return a')
