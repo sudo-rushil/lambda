@@ -22,8 +22,9 @@ import qualified Data.ByteString.Lazy.Char8 as B
 import           Data.List                  (foldl')
 import qualified Data.Map.Strict            as M
 
-import           Control.State              (Bindings, Lam)
+import           Control.State              (Bindings, Lam, evalExpr, replace)
 import           Lambda.Parse               (parse)
+import           Lambda.Reduce              (reduce)
 import           Lambda.Syntax
 
 import           Paths_lambda               (getDataFileName)
@@ -58,18 +59,7 @@ readLC file = do
 -- Bind operations
 
 addBinding :: Name -> Expr -> Bindings -> Bindings
-addBinding name expr bindings = M.insert name (replace bindings expr) bindings
-
-
-replace :: Bindings -> Expr -> Expr
-replace bindings (Var name) =
-    case bindings M.!? name of
-        Nothing   -> Var name
-        Just expr -> expr
-replace bindings (App expr expr') =
-    App (replace bindings expr) (replace bindings expr')
-replace bindings (Abs name expr) =
-    Abs name (replace bindings expr)
+addBinding name expr bindings = M.insert name (evalExpr bindings expr) bindings
 
 
 -- Primitive bindings

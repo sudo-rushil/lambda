@@ -11,6 +11,7 @@ Maintainer  : Rushil Mallarapu
 
 module Control.Cmd
     ( cmd
+    , findExpr
     ) where
 
 
@@ -19,7 +20,7 @@ import           Data.ByteString.Lazy.Char8 (pack)
 import qualified Data.Map                   as M
 
 import           Control.Module             (addBinding)
-import           Control.State              (Bindings, Lam)
+import           Control.State              (Bindings, Lam, evalExpr)
 import           Lambda.Parse               (parse)
 import           Lambda.Syntax
 
@@ -72,7 +73,8 @@ parseExpr str =
 putCmd :: Cmd
 putCmd expr = do
     bindings <- get
-    case findExpr bindings expr of
+    let expr' = evalExpr bindings expr
+    case findExpr bindings expr' of
         Nothing   -> liftIO (putStrLn $ printExpr expr)
         Just name -> liftIO (putStrLn name)
 

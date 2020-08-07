@@ -1,11 +1,15 @@
 -- modules (circular import of bindings)
 use "add.lc"
 
--- commands
-:put \f x.x
-
 -- define add
 let add = \m n f x.m f (n f x)
 
--- return the addition of 2 and 3
-add 2 3
+-- get command to read in x and y
+:get x
+:get y
+
+-- addition of x and y
+add x y
+
+-- print out value
+:put add x y
