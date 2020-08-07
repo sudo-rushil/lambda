@@ -3,6 +3,7 @@
 
 -- Church numerals
 let succ    = \n f x.f (n f x)
+let pred    = \n f x.n (\g h.h (g f)) (\u.x) (\u.u)
 
 let 0       = \f x.x
 let 1       = succ 0

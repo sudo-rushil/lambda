@@ -69,4 +69,5 @@ expandBindings (name:names) expr = Abs name (expandBindings names expr)
 -- Trim artifical quotation marks from filename
 trim :: FilePath -> FilePath
 trim = tail.init
+
 }

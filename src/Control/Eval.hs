@@ -16,6 +16,7 @@ module Control.Eval
 import           Control.Monad.State (execStateT, get, liftIO, modify)
 import qualified Data.Map            as M
 
+import           Control.Cmd         (cmd)
 import           Control.Module      (addBinding, initBindings, replace, use)
 import           Control.State       (Bindings, Lam)
 import           Lambda.Reduce       (reduce)
@@ -31,12 +32,10 @@ eval state = flip execStateT state . mapM_ eval'
 
 
 eval' :: Stmt -> Lam ()
-eval' (Bind name expr) = modify addBinding
-    where
-        addBinding bindings = M.insert name (replace bindings expr) bindings
+eval' (Bind name expr) = modify (addBinding name expr)
 eval' (Exp expr) = get >>= (liftIO . putStrLn . printExpr . flip evalExpr expr)
 eval' (Use file) = use file
-eval' _ = return ()
+eval' (Cmd command expr) = cmd command expr
 
 
 -- State-aware evaluation of Exprs

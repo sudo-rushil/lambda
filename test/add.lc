@@ -1,12 +1,11 @@
--- modules
+-- modules (circular import of bindings)
 use "add.lc"
 
 -- commands
 :put \f x.x
 
--- define 2 and 3
-let 1 = succ 0
-let 2 = succ 1
+-- define add
+let add = \m n f x.m f (n f x)
 
--- return 3
-2
+-- return the addition of 2 and 3
+add 2 3
