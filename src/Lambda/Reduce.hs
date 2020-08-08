@@ -8,6 +8,7 @@ Maintainer  : Rushil Mallarapu
 
 module Lambda.Reduce
     ( reduce
+    , freevars
     ) where
 
 
