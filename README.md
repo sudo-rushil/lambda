@@ -136,7 +136,6 @@ Any bindings you make with `let` last until the end of the session. If you feel 
  - when importing with "use" only the let statements are evaluated
  - let stmts are evaluated in the order on the file, and files are evaluated in the order they are imported
  - any new let will override any previous one
-- Move primitives from haskell to lc
 - Documentation/Book
 - Bytecode and VM (in C?)
-- de Bruijn notation
+- de Bruijn notation/SKI/SKBCI

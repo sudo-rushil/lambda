@@ -6,6 +6,9 @@ License     : MIT
 Maintainer  : Rushil Mallarapu
 -}
 
+{-# LANGUAGE GADTs #-}
+
+
 module Lambda.Syntax
     ( Expr(..)
     , Stmt(..)
@@ -19,16 +22,18 @@ module Lambda.Syntax
 type Name = String
 
 
-data Expr = Var Name
-    | App Expr Expr
-    | Abs Name Expr
+data Expr where
+    Var :: Name -> Expr
+    App :: Expr -> Expr -> Expr
+    Abs :: Name -> Expr -> Expr
     deriving (Eq, Ord, Show)
 
 
-data Stmt = Exp Expr
-    | Bind Name Expr
-    | Use FilePath
-    | Cmd Name Expr
+data Stmt where
+    Exp :: Expr -> Stmt
+    Bind :: Name -> Expr -> Stmt
+    Use :: FilePath -> Stmt
+    Cmd :: Name -> Expr -> Stmt
     deriving (Eq, Ord)
 
 
