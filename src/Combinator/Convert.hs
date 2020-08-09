@@ -40,6 +40,14 @@ transform = iexprToTerm . transform' . exprToIExpr
 
 
 transform' :: IExpr -> IExpr
+transform' (IAbs name (IApp expr (IVar name')))
+    | not (free name expr) = transform' expr
+transform' (IAbs name (IA expr (IVar name')))
+    | not (free name expr) = transform' expr
+transform' (IAbs name (IApp expr (IV name')))
+    | not (free name expr) = transform' expr
+transform' (IAbs name (IA expr (IV name')))
+    | not (free name expr) = transform' expr
 transform' (IAbs name (IApp expr expr'))
     | free name expr || free name expr'
         = IA (IA (IC S) (transform' (IAbs name expr))) (transform' (IAbs name expr'))
