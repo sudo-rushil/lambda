@@ -5,7 +5,8 @@ import Lambda.Lex
 import Lambda.Syntax
 }
 
-%name happyParser
+%name happyParser File
+%name stmtParser Stmt
 %tokentype { Token }
 
 %monad { Parser } { thenP } { returnP }

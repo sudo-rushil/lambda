@@ -8,6 +8,7 @@ Maintainer  : Rushil Mallarapu
 
 module Lambda.Parse
     ( parse
+    , parseLine
     , Error(..)
     , ErrClass(..)
     ) where
@@ -17,7 +18,7 @@ import qualified Data.ByteString.Lazy as B
 import           Data.List            (isPrefixOf)
 
 import           Lambda.Lex           (runAlex)
-import           Lambda.Parser        (happyParser)
+import           Lambda.Parser        (happyParser, stmtParser)
 import           Lambda.Syntax
 
 
@@ -41,6 +42,24 @@ parse s =
         lexicalErrPrefix = "lexical error at line " :: String
     in case runAlex s $ happyParser of
         Right x -> Right (reverse x) -- stmts get parsed in reverse
+        Left str | showErrPrefix `isPrefixOf` str ->
+                    let (line, column, m) =
+                            (read (drop (length showErrPrefix) str) :: (Int, Int, Maybe String))
+                    in Left (Error line column (Syntactical m))
+                 | lexicalErrPrefix `isPrefixOf` str ->
+                    let info = drop (length lexicalErrPrefix) str
+                        lineStr = takeWhile (/= ',') info
+                        columnStr = drop (9 + length lineStr) info
+                    in Left (Error (read lineStr) (read columnStr) Lexical)
+                 | otherwise -> Left (Error 0 0 (Message str))
+
+
+parseLine :: B.ByteString -> Either Error Stmt
+parseLine s =
+    let showErrPrefix = "show-error: " :: String
+        lexicalErrPrefix = "lexical error at line " :: String
+    in case runAlex s $ stmtParser of
+        Right x -> Right x
         Left str | showErrPrefix `isPrefixOf` str ->
                     let (line, column, m) =
                             (read (drop (length showErrPrefix) str) :: (Int, Int, Maybe String))

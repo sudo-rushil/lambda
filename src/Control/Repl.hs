@@ -19,7 +19,8 @@ import qualified Data.ByteString.Lazy.Char8 as B
 import           System.Console.Haskeline
 
 import           Control.Eval               (Bindings, eval, initBindings)
-import           Lambda.Parse               (parse)
+import           Lambda.Parse               (parse, parseLine)
+import           Lambda.Syntax              (Stmt)
 
 
 -- Run REPL starting from init bindings
@@ -43,9 +44,13 @@ loop debug func env = do
 
 process :: (Bool -> Bindings -> String -> IO Bindings)
 process debug bindings line = do
-    case parse $ B.pack line <> "\n" of
+    case parseLine $ B.pack line of
         Left err   -> print err >> return bindings
         Right stmt ->
             if debug
-                then print (head stmt) >> putStr " " >> eval bindings stmt
-                else eval bindings stmt
+                then print stmt >> putStr " " >> eval' bindings stmt
+                else eval' bindings stmt
+
+
+eval' :: Bindings -> Stmt -> IO Bindings
+eval' bindings = eval bindings . (: [])
