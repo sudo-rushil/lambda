@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 59fffc5e190712632ba7a1ab1c733e4160d5789393a41d2b47ac38dfc27695a4
+-- hash: 5334e05e0329580f720d6b7cfe43b7f70e1e2338c006ec4bac87dd31709aaf57
 
 name:           lambda
 version:        0.2.0.0
@@ -32,6 +32,7 @@ library
       Combinator.Convert
       Combinator.Reduce
       Combinator.Syntax
+      Combinator.Transform
       Control
       Control.Args
       Control.Cmd

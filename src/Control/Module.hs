@@ -15,7 +15,9 @@ module Control.Module
     , readLC
     , addBinding
     , initBindings
+    , filterBinds
     ) where
+
 
 import           Control.Monad.State        (execStateT, get, lift, put)
 import qualified Data.ByteString.Lazy.Char8 as B

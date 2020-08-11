@@ -11,7 +11,7 @@ Maintainer  : Rushil Mallarapu
 
 
 module Combinator.Convert
-    ( transform
+    ( convert
     ) where
 
 
@@ -35,8 +35,8 @@ data IExpr where
 
 
 -- Conversion of Exprs to Terms
-transform :: Expr -> Term
-transform = iexprToTerm . transform' . exprToIExpr
+convert :: Expr -> Term
+convert = iexprToTerm . transform' . exprToIExpr
 
 
 transform' :: IExpr -> IExpr

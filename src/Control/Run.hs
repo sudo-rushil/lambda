@@ -12,11 +12,12 @@ module Control.Run
     ) where
 
 
-import           System.Directory (makeAbsolute, withCurrentDirectory)
-import           System.FilePath  (takeDirectory)
+import           System.Directory     (makeAbsolute, withCurrentDirectory)
+import           System.FilePath      (takeDirectory)
 
-import           Control.Eval     (eval, initBindings)
-import           Control.Module   (readLC)
+import           Combinator.Transform (transform)
+import           Control.Eval         (eval, initBindings)
+import           Control.Module       (readLC)
 
 
 -- Run file starting from init bindings
@@ -26,5 +27,8 @@ run file = do
     runDir <- takeDirectory <$> makeAbsolute file
     contents <- readLC file
     bindings <- initBindings
-    withCurrentDirectory runDir $ eval bindings contents
+    withCurrentDirectory runDir $ do
+        eval bindings contents
+        ir <- transform contents
+        mapM_ print ir
     return ()
