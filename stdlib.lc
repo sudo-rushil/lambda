@@ -23,3 +23,9 @@ let #f      = \t f.f
 
 let and     = \p q.p q p
 let or      = \p q.p p q
+
+
+-- SKI Combinators
+let S = \x y z.x z (y z)
+let K = \x y.x
+let I = \x.x

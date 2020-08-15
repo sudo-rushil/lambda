@@ -61,4 +61,4 @@ freevars (App expr expr') = freevars expr `S.union` freevars expr'
 
 
 varsupply :: S.Set Name -> Name
-varsupply freevars = head [ "x'" ++ show i | i <- [1..], ("x" ++ show i) `S.notMember` freevars]
+varsupply freevars = head [ "x" ++ show i | i <- [1..], ("x" ++ show i) `S.notMember` freevars]
